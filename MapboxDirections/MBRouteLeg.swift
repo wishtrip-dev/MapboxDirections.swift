@@ -17,7 +17,7 @@ open class RouteLeg: NSObject, NSSecureCoding {
         self.steps = steps
         distance = json["distance"] as! Double
         expectedTravelTime = json["duration"] as! Double
-        self.name = json["summary"] as! String
+        self.name = json["summary"] as? String ?? ""
         
         var openStreetMapNodeIdentifiers: [Int64]?
         var segmentDistances: [CLLocationDistance]?
