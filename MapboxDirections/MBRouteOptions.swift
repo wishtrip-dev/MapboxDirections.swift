@@ -341,7 +341,10 @@ open class RouteOptions: NSObject, NSSecureCoding {
         
         return params
     }
-    
+  
+  public func parseDirectionResponse(from json: [String : Any]) -> ([Waypoint]?, [Route]?){
+    return self.response(from: json)
+  }
     /**
      Returns response objects that represent the given JSON dictionary data.
      
@@ -431,10 +434,6 @@ open class RouteOptionsV4: RouteOptions {
      The default value of this property is `true`.
      */
     open var includesShapes: Bool = true
-  
-  public func parseDirectionResponse(from json: [String : Any]) -> ([Waypoint]?, [Route]?){
-    return self.response(from: json)
-  }
   
     override var path: String {
         assert(!queries.isEmpty, "No query")
