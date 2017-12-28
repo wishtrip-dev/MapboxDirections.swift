@@ -104,6 +104,8 @@ open class Directions: NSObject {
      - parameter error: The error that occurred, or `nil` if the placemarks were obtained successfully.
      */
     public typealias CompletionHandler = (_ waypoints: [Waypoint]?, _ routes: [Route]?, _ error: NSError?) -> Void
+ 
+  public typealias JSONCompletionHandler = (_ json: [String : Any]?, _ error: NSError?) -> Void
     
     // MARK: Creating a Directions Object
     
@@ -182,6 +184,36 @@ open class Directions: NSObject {
         task.resume()
         return task
     }
+  
+  /**
+   ByWishtrip
+   */
+  @objc(calculateDirectionsWithOptions:completionHandler:)
+  open func calculateOptionsToJSON(_ options: RouteOptions, completionHandler: @escaping JSONCompletionHandler) -> URLSessionDataTask {
+    let url = self.url(forCalculating: options)
+    let task = dataTask(with: url, completionHandler: { (json) in
+      completionHandler(json, nil)
+    }) { (error) in
+      completionHandler(nil, error)
+    }
+    task.resume()
+    return task
+  }
+  
+  /**
+   ByWishtrip
+   */
+  open func parseOptionsJSON(json: [String : Any]) -> CompletionHandler {
+    let response = options.response(from: json)
+    if let routes = response.1 {
+      for route in routes {
+        route.accessToken = self.accessToken
+        route.apiEndpoint = self.apiEndpoint
+        route.routeIdentifier = json["uuid"] as? String
+      }
+    }
+    completionHandler(response.0, response.1, nil)
+  }
     
     /**
      Returns a URL session task for the given URL that will run the given closures on completion or error.
