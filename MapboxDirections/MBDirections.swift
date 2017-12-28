@@ -106,6 +106,7 @@ open class Directions: NSObject {
     public typealias CompletionHandler = (_ waypoints: [Waypoint]?, _ routes: [Route]?, _ error: NSError?) -> Void
  
   public typealias JSONCompletionHandler = (_ json: [String : Any]?, _ error: NSError?) -> Void
+  public typealias JSONRouteResult = (waypoints: [Waypoint]?, routes: [Route]?)
     
     // MARK: Creating a Directions Object
     
@@ -188,8 +189,7 @@ open class Directions: NSObject {
   /**
    ByWishtrip
    */
-  @objc(calculateDirectionsWithOptions:completionHandler:)
-  open func calculateOptionsToJSON(_ options: RouteOptions, completionHandler: @escaping JSONCompletionHandler) -> URLSessionDataTask {
+  public func calculateOptionsToJSON(_ options: RouteOptions, completionHandler: @escaping JSONCompletionHandler) -> URLSessionDataTask {
     let url = self.url(forCalculating: options)
     let task = dataTask(with: url, completionHandler: { (json) in
       completionHandler(json, nil)
@@ -203,7 +203,7 @@ open class Directions: NSObject {
   /**
    ByWishtrip
    */
-  open func parseOptionsJSON(_ options: RouteOptions, json: [String : Any]) -> CompletionHandler {
+  public func parseOptionsJSON(_ options: RouteOptions, json: [String : Any]) -> JSONRouteResult {
     let response = options.response(from: json)
     if let routes = response.1 {
       for route in routes {
@@ -212,7 +212,7 @@ open class Directions: NSObject {
         route.routeIdentifier = json["uuid"] as? String
       }
     }
-    completionHandler(response.0, response.1, nil)
+    return JSONRouteResult(waypoints: response.0, routes: response.1)
   }
     
     /**
