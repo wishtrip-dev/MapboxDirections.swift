@@ -203,7 +203,7 @@ open class Directions: NSObject {
   /**
    ByWishtrip
    */
-  open func parseOptionsJSON(json: [String : Any]) -> CompletionHandler {
+  open func parseOptionsJSON(_ options: RouteOptions, json: [String : Any]) -> CompletionHandler {
     let response = options.response(from: json)
     if let routes = response.1 {
       for route in routes {
