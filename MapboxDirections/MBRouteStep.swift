@@ -489,7 +489,7 @@ open class RouteStep: NSObject, NSSecureCoding {
     // MARK: Creating a Step
     
     internal init(finalHeading: CLLocationDirection?, maneuverType: ManeuverType?, maneuverDirection: ManeuverDirection?, maneuverLocation: CLLocationCoordinate2D, name: String, coordinates: [CLLocationCoordinate2D]?, json: JSONDictionary) {
-        transportType = TransportType(description: json["mode"] as! String)
+        transportType = TransportType(description: json["mode"] as? String ?? "")
         
         let road = Road(name: name, ref: json["ref"] as? String, exits: json["exits"] as? String, destination: json["destinations"] as? String, rotaryName: json["rotary_name"] as? String)
         if maneuverType == .takeRotary || maneuverType == .takeRoundabout {
@@ -552,7 +552,7 @@ open class RouteStep: NSObject, NSSecureCoding {
         let maneuverDirection = ManeuverDirection(description: maneuver["modifier"] as? String ?? "")
         let maneuverLocation = CLLocationCoordinate2D(geoJSON: maneuver["location"] as! [Double])
         
-        let name = json["name"] as! String
+        let name = json["name"] as? String ?? ""
         
         var coordinates: [CLLocationCoordinate2D]?
         switch json["geometry"] {
