@@ -141,7 +141,7 @@ open class RouteLeg: NSObject, NSSecureCoding {
      
      This array is empty if the `includesSteps` property of the original `RouteOptions` object is set to `false`.
      */
-    open let steps: [RouteStep]
+    open var steps: [RouteStep]
     
     /**
      An array containing [OpenStreetMap node identifiers](https://wiki.openstreetmap.org/wiki/Node), one for each coordinate along the route geometry.

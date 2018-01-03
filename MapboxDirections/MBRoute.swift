@@ -136,7 +136,7 @@ open class Route: NSObject, NSSecureCoding {
      
      To determine the name of the route, concatenate the names of the route’s legs.
      */
-    open let legs: [RouteLeg]
+    open var legs: [RouteLeg]
     
     open override var description: String {
         return legs.map { $0.name }.joined(separator: " – ")
