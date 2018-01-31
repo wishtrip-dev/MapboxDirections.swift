@@ -818,7 +818,7 @@ open class RouteStep: NSObject, NSSecureCoding {
      
      If the maneuver is a roundabout maneuver, the outlet to take is named in the `exitNames` property; the `names` property is only set for large roundabouts that have their own names.
      */
-    open let names: [String]?
+    open var names: [String]?
     
     /**
      A phonetic or phonemic transcription indicating how to pronounce the names in the `names` property.
