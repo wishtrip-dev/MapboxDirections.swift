@@ -36,7 +36,7 @@ NSString * const MapboxAccessToken = @"<# your Mapbox access token #>";
     MBRouteOptions *options = [[MBRouteOptions alloc] initWithWaypoints:waypoints profileIdentifier:nil];
     options.includesSteps = YES;
     
-    (void)[[[MBDirections alloc] initWithAccessToken:MapboxAccessToken] calculateDirectionsWithOptions:options completionHandler:^(NSArray<MBWaypoint *> * _Nullable waypoints, NSArray<MBRoute *> * _Nullable routes, NSError * _Nullable error) {
+    [[[MBDirections alloc] initWithAccessToken:MapboxAccessToken] calculateDirectionsWithOptions:options completionHandler:^(NSArray<MBWaypoint *> * _Nullable waypoints, NSArray<MBRoute *> * _Nullable routes, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error calculating directions: %@", error);
             return;
@@ -59,7 +59,7 @@ NSString * const MapboxAccessToken = @"<# your Mapbox access token #>";
             for (MBRouteStep *step in leg.steps) {
                 NSLog(@"%@", step.instructions);
                 NSString *formattedDistance = [distanceFormatter stringFromMeters:step.distance];
-                NSLog(@"— %@ —", formattedDistance);
+                NSLog(@"— %@ — %ld - %ld - %ld -", formattedDistance, step.maneuverType, step.maneuverDirection, step.transportType);
             }
             
             if (route.coordinateCount) {

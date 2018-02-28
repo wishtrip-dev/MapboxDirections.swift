@@ -130,7 +130,7 @@ open class Directions: NSObject {
      - parameter accessToken: A Mapbox [access token](https://www.mapbox.com/help/define-access-token/). If an access token is not specified when initializing the directions object, it should be specified in the `MGLMapboxAccessToken` key in the main application bundle’s Info.plist.
      - parameter host: An optional hostname to the server API. The [Mapbox Directions API](https://www.mapbox.com/api-documentation/?language=Swift#directions) endpoint is used by default.
      */
-    public init(accessToken: String?, host: String?) {
+    @objc public init(accessToken: String?, host: String?) {
         let accessToken = accessToken ?? defaultAccessToken
         assert(accessToken != nil && !accessToken!.isEmpty, "A Mapbox access token is required. Go to <https://www.mapbox.com/studio/account/tokens/>. In Info.plist, set the MGLMapboxAccessToken key to your access token, or use the Directions(accessToken:host:) initializer.")
         
@@ -149,7 +149,7 @@ open class Directions: NSObject {
      
      - parameter accessToken: A Mapbox [access token](https://www.mapbox.com/help/define-access-token/). If an access token is not specified when initializing the directions object, it should be specified in the `MGLMapboxAccessToken` key in the main application bundle’s Info.plist.
      */
-    public convenience init(accessToken: String?) {
+    @objc public convenience init(accessToken: String?) {
         self.init(accessToken: accessToken, host: nil)
     }
     
@@ -167,7 +167,7 @@ open class Directions: NSObject {
      - returns: The data task used to perform the HTTP request. If, while waiting for the completion handler to execute, you no longer want the resulting routes, cancel this task.
      */
     @objc(calculateDirectionsWithOptions:completionHandler:)
-    open func calculate(_ options: RouteOptions, completionHandler: @escaping CompletionHandler) -> URLSessionDataTask {
+    @discardableResult open func calculate(_ options: RouteOptions, completionHandler: @escaping CompletionHandler) -> URLSessionDataTask {
         let url = self.url(forCalculating: options)
         let task = dataTask(with: url, completionHandler: { (json) in
             let response = options.response(from: json)
